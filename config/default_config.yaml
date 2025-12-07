@@ -1,0 +1,32 @@
+# Hamming BSC System - Varsayılan Yapılandırma
+
+# Sistem Ayarları
+system:
+  error_probability: 0.05  # Binary Symmetric Channel hata olasılığı (0-1 arası)
+  random_seed: 42          # Reproducibility için seed (None ise rastgele)
+
+# Encoder Ayarları
+encoder:
+  block_size: 4            # Hamming(7,4) için veri bloğu boyutu
+
+# Decoder Ayarları
+decoder:
+  enable_correction: true   # Hata düzeltme aktif mi?
+
+# Batch Processing Ayarları
+batch:
+  chunk_size: 1000         # Her chunk'taki bit sayısı
+  batch_size: 100          # Her batch'teki chunk sayısı
+  use_multiprocessing: false  # Multiprocessing kullanılsın mı?
+  num_workers: null        # Worker sayısı (null ise CPU sayısı)
+
+# Performans Ayarları
+performance:
+  vectorize: true          # NumPy vektörize işlemler kullan
+  optimize_memory: true    # Bellek optimizasyonu aktif
+
+# Logging Ayarları
+logging:
+  level: INFO              # DEBUG, INFO, WARNING, ERROR
+  file: null               # Log dosyası (null ise console'a yaz)
+
