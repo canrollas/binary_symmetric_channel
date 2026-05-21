@@ -1,0 +1,13 @@
+{
+  "total_sentences": 3040,
+  "sources": {
+    "seed": 40,
+    "wikipedia": 0,
+    "brown": 3000
+  },
+  "avg_chars": 113.70592105263158,
+  "avg_words": 19.528947368421054,
+  "min_chars": 40,
+  "max_chars": 200,
+  "seed": 42
+}
