@@ -1,0 +1,57 @@
+\section{Background}
+\label{sec:background}
+
+\subsection{Binary Symmetric Channel and Shannon Entropy}
+
+A BSC with crossover probability $p$ maps each input bit $x \in \{0,1\}$ to
+output $y = x \oplus e$, where $e \sim \text{Bernoulli}(p)$ independently.
+The binary entropy function $H_b(p) = -p\log_2 p - (1-p)\log_2(1-p)$ quantifies
+the uncertainty introduced per channel use.  Shannon's noisy channel coding
+theorem \cite{shannon1948,cover2006} states that reliable communication at rate
+$R$ is possible if and only if $R < C(p) = 1 - H_b(p)$.
+
+\subsection{Hamming(7,4) Code}
+
+The Hamming$(7,4)$ code encodes 4 information bits into 7-bit codewords using
+generator matrix $G \in \mathbb{F}_2^{4\times 7}$, adding 3 parity bits.  Its
+minimum Hamming distance is $d_{\min}=3$, enabling correction of any single-bit
+error per codeword.  The code rate is $R = 4/7 \approx 0.571$.  For the BSC,
+the theoretical post-decoding BER is
+\begin{equation}
+  \text{BER}_\text{Hamming}(p)
+    = \sum_{k=2}^{7}\binom{7}{k}p^k(1-p)^{7-k},
+\end{equation}
+the probability that two or more bits in a block are corrupted (beyond the
+single-error correction radius). This code achieves reliable communication only
+for $p < p^*_\text{Hamming}$ where $C(p^*) = 4/7$.
+
+\subsection{Repetition Codes}
+
+A rate-$1/n$ repetition code encodes each bit as $n$ identical copies and
+decodes by majority vote.  The post-decoding BER for odd $n$ is
+\begin{equation}
+  \text{BER}_n(p) = \sum_{k=\lceil n/2 \rceil}^{n}\binom{n}{k}p^k(1-p)^{n-k}.
+\end{equation}
+Despite simplicity, repetition codes require very low $p$ to achieve low BER
+because their code rate $R=1/n$ degrades quickly against channel capacity.
+
+\subsection{Reed-Solomon Codes}
+
+Reed-Solomon (RS) codes \cite{reed_solomon1960} operate over $\text{GF}(2^8)$,
+treating each byte as a symbol.  An RS$(255,255-2t)$ code corrects up to $t$
+byte errors, yielding rate $R=(255-2t)/255$.  In BSC experiments, a single
+bit flip corrupts an entire byte; thus the effective byte-error rate can be much
+higher than the bit-error rate for small $p$.
+
+\subsection{LLMs as Semantic Correctors}
+
+Large language models trained on natural text implicitly encode strong priors
+over syntactically and semantically valid sequences.  Given a corrupted text
+sequence $\tilde{s}$, an LLM approximates
+\begin{equation}
+  \hat{s} = \arg\max_{s} P_\text{LM}(s)\cdot P(\tilde{s} | s, p),
+\end{equation}
+where $P_\text{LM}$ is the language model prior.  This is joint source-channel
+decoding \cite{farsad2018deep}: the LM provides the source model that the BSC
+model lacks.  Crucially, this does not violate Shannon's theorem; the additional
+information comes from the source distribution, not from extra channel uses.

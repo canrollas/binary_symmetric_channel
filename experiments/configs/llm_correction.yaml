@@ -1,0 +1,10 @@
+experiment: llm_correction
+p_values: [0.01, 0.05, 0.10, 0.15, 0.20, 0.30]
+prompt_strategies:
+  - minimal
+  - contextual
+  - exemplar
+model: anthropic/claude-sonnet-4-5
+provider: openrouter
+n_trials: 3
+output_dir: results/llm_correction

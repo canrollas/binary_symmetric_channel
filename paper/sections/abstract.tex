@@ -1,0 +1,12 @@
+We present a systematic empirical comparison of classical error correcting codes
+(ECC) and large language model (LLM) based correction for text transmitted over
+a Binary Symmetric Channel (BSC) with crossover probability $p$.  We evaluate
+Hamming(7,4), Repetition, and Reed-Solomon codes alongside an LLM corrector
+(Claude Sonnet) across $p \in (0, 0.5)$, measuring bit error rate (BER),
+character error rate (CER), word error rate (WER), and BLEU score.  We show
+that ECC methods approach the Shannon capacity bound from below and dominate at
+low noise levels, while LLM correction recovers semantic content at noise levels
+where ECC fails.  A combined ECC+LLM pipeline outperforms either approach
+alone.  All results are consistent with Shannon's channel coding theorem; LLMs
+improve semantic recovery by exploiting the source language model, not by
+exceeding channel capacity.

@@ -1,0 +1,8 @@
+experiment: sweep_p
+p_start: 0.001
+p_stop: 0.499
+n_steps: 60
+n_trials: 10
+random_seed_base: 42
+output_dir: results/sweep_p
+use_rs: true

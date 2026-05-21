@@ -1,0 +1,66 @@
+\section{Methodology}
+\label{sec:methodology}
+
+\subsection{Experimental Pipeline}
+
+Each experiment follows the two-stage pipeline below.
+Stage 1 (channel transmission):
+\[
+  \text{text} \xrightarrow{\text{UTF-8}} \text{bits}
+  \xrightarrow{\text{ECC encode}} \text{codeword}
+  \xrightarrow{\mathrm{BSC}(p)} \tilde{\text{codeword}}
+\]
+Stage 2 (recovery):
+\[
+  \tilde{\text{codeword}}
+  \xrightarrow{\text{ECC decode}} \hat{\text{bits}}
+  \xrightarrow{\text{UTF-8}} \hat{\text{text}}
+  \xrightarrow{[\text{LLM}]} \hat{\hat{\text{text}}}
+\]
+The LLM correction stage is optional and applied to the ECC output (or directly
+to the raw BSC output in the LLM-only condition).
+
+\subsection{Text Corpus}
+
+We use a fixed corpus of 40 English sentences drawn from technical and
+general-language domains, including descriptions of communication theory,
+information-theoretic concepts, and general knowledge statements.  Sentences
+range from 45 to 110 characters.  The corpus is held fixed across all
+experiments to enable direct comparison.
+
+\subsection{Evaluation Metrics}
+
+We evaluate at four levels of abstraction:
+\begin{itemize}
+  \item \textbf{BER} (Bit Error Rate): fraction of bits differing from original, measured on the recovered bit string before UTF-8 decoding.
+  \item \textbf{CER} (Character Error Rate): edit distance between original and recovered text, normalized by original length.
+  \item \textbf{WER} (Word Error Rate): edit distance at the word level, normalized by original word count.
+  \item \textbf{BLEU}: 4-gram precision with brevity penalty \cite{papineni2002}, measuring $n$-gram overlap.
+\end{itemize}
+BER captures channel-level performance; CER/WER/BLEU capture human-readable quality.
+
+\subsection{LLM Prompting Strategies}
+
+We evaluate three prompting strategies for the LLM correction stage:
+\begin{enumerate}
+  \item \emph{Minimal}: a bare instruction to correct the corrupted text.
+  \item \emph{Contextual}: includes the known noise level $p$ as context.
+  \item \emph{Exemplar}: provides two (corrupted, original) examples before the target.
+\end{enumerate}
+All experiments use \texttt{claude-sonnet-4-6} with a cached system prompt to
+reduce API cost.
+
+\subsection{Shannon Bound Analysis}
+
+For each method and each $p$ value, we compare the achieved information rate
+(estimated as $1 - H_b(\text{BER}_\text{post})$) against the Shannon capacity
+$C(p)$ and the code rate $R$ of the ECC.  A reliable code must satisfy
+$R \leq C(p)$; empirical results above this bound indicate residual errors not
+yet corrected, and the rate estimate is a lower bound on achievable performance.
+
+\subsection{Reproducibility}
+
+All experiments use fixed random seeds (base seed 42, per-trial offset by trial
+index).  LLM responses are cached in a JSONL file keyed by a SHA-256 hash of
+the input text, model identifier, and prompt strategy, ensuring that re-running
+experiments does not incur additional API cost.

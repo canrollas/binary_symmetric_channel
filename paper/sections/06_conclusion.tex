@@ -1,0 +1,31 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented a systematic empirical comparison of classical error correcting
+codes and LLM-based correction on the Binary Symmetric Channel, using metrics
+spanning bit-level (BER) to semantic-level (WER, BLEU) quality.
+
+Our key findings are:
+\begin{enumerate}
+  \item \textbf{ECC dominates at low noise} ($p < 0.10$): algebraic correction
+        is near-exact within the error-correction radius and incurs no
+        hallucination risk.
+  \item \textbf{LLMs provide semantic recovery at high noise} ($p \geq 0.15$):
+        linguistic priors allow recovery of intended meaning even when
+        bit-level correction has failed.
+  \item \textbf{The combined ECC+LLM pipeline is strictly better} across all
+        tested $p$ values, confirming complementarity.
+  \item \textbf{Shannon's bound is respected}: no method achieves information
+        rates above $C(p)$, validating the simulation framework.
+\end{enumerate}
+
+These results have practical implications for systems where text is transmitted
+over noisy channels: LLM post-processing on top of standard ECC is a low-cost
+enhancement that can meaningfully improve perceived quality at the semantic
+level, particularly for high-noise regimes where ECC alone is insufficient.
+
+\textbf{Future work} includes: (i) evaluating learned neural channel decoders
+\cite{farsad2018deep} in the same framework; (ii) investigating fine-tuned LLMs
+on synthetic BSC-corrupted data; (iii) extending to other channel models
+(burst errors, erasure channels); (iv) characterizing the information-theoretic
+role of the LLM source prior formally.

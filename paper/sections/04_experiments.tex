@@ -1,0 +1,34 @@
+\section{Experimental Setup}
+\label{sec:experiments}
+
+\subsection{Parameter Sweep}
+
+We sweep the channel crossover probability $p$ from $0.001$ to $0.499$ in 60
+linearly spaced steps, spanning from near-perfect to near-useless channels.
+For each $p$ and each method, we run 10 independent trials with different random
+seeds and report mean and standard deviation across trials and corpus sentences.
+
+\textbf{Methods evaluated:}
+\begin{itemize}
+  \item \emph{Raw BSC}: no error correction; baseline.
+  \item \emph{Hamming(7,4)}: rate $4/7$, corrects 1-bit errors per block.
+  \item \emph{Repetition-3}: rate $1/3$, majority vote over triples.
+  \item \emph{Repetition-5}: rate $1/5$, majority vote over quintuples.
+  \item \emph{Reed-Solomon}: RS$(255,245)$, $t=5$ byte-error correction, rate $\approx 0.961$.
+  \item \emph{LLM (contextual)}: Claude Sonnet 4.6, contextual prompt with known $p$.
+  \item \emph{Hamming + LLM}: Hamming decode followed by LLM correction.
+\end{itemize}
+
+\subsection{LLM Experiment Details}
+
+LLM correction is evaluated at $p \in \{0.01, 0.05, 0.10, 0.15, 0.20, 0.30\}$
+with 3 trials each, using a 20-sentence subset of the corpus to limit API cost.
+All three prompt strategies are compared.  Token usage and estimated cost are
+logged per query.
+
+\subsection{Computational Resources}
+
+ECC sweeps run in under 5 minutes on a standard laptop (NumPy-vectorized
+operations, no GPU required).  LLM experiments require network access and
+approximately \$1--3 in Anthropic API credits for the full evaluation (mitigated
+by response caching on re-runs).

@@ -1,0 +1,37 @@
+\section{Introduction}
+\label{sec:intro}
+
+The \emph{Binary Symmetric Channel} (BSC) is the canonical model for digital
+transmission over a noisy medium: each transmitted bit is independently flipped
+with probability $p$ \cite{shannon1948}. Shannon's channel coding theorem
+establishes the capacity
+\begin{equation}
+  C(p) = 1 - H_b(p) = 1 + p\log_2 p + (1-p)\log_2(1-p),
+\end{equation}
+as a hard upper bound on reliable communication rate.  Classical \emph{Error
+Correcting Codes} (ECCs) approach this bound through algebraic structure:
+Hamming codes correct single-bit errors within a block \cite{hamming1950},
+Reed-Solomon codes correct byte-level bursts \cite{reed_solomon1960}, and
+turbo/LDPC codes push to within a fraction of a dB of capacity
+\cite{berrou1993,gallager1962}.
+
+A fundamentally different correction mechanism has emerged with large language
+models (LLMs): rather than exploiting algebraic redundancy, LLMs exploit the
+statistical structure of natural language to \emph{infer} the most probable
+original message from a corrupted version.  This linguistic redundancy operates
+at a semantic level that is orthogonal to the bit-level algebra of ECCs.
+
+\textbf{Contributions.}  This paper presents the first systematic benchmark
+comparing classical ECC methods against LLM-based correction on the BSC:
+\begin{enumerate}
+  \item A unified experiment framework that sweeps $p \in (0, 0.5)$ and
+        measures bit error rate (BER), character error rate (CER), word error
+        rate (WER), and BLEU score for each method.
+  \item An empirical analysis showing which methods approach the Shannon bound
+        and at what noise levels they fail.
+  \item Evidence that LLMs recover semantic content at noise levels where ECCs
+        degrade, without violating Shannon's theorem (LLMs exploit a \emph{source
+        model}, not additional channel capacity).
+  \item A combined ECC+LLM pipeline that outperforms either method alone across
+        all tested values of $p$.
+\end{enumerate}

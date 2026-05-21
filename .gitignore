@@ -18,6 +18,10 @@ lib/
 lib64/
 parts/
 sdist/
+*.out
+*.blg
+*.bbl
+*.aux
 var/
 wheels/
 pip-wheel-metadata/

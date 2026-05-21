@@ -1,0 +1,46 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\newcommand{\includefig}[2][width=\columnwidth]{\includegraphics[#1]{#2}}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{microtype}
+
+\graphicspath{{figures/}{../figures/}}
+
+\title{Error Correction vs.\ Language Models on the Binary Symmetric Channel:\\
+       A Systematic Empirical Comparison}
+
+\author{%
+  \IEEEauthorblockN{Baris Atakan}
+  \IEEEauthorblockA{\textit{Izmir Institute of Technology}} \and
+  \IEEEauthorblockN{Burcu Baris}
+  \IEEEauthorblockA{\textit{PhD Candidate}} \and
+  \IEEEauthorblockN{Can Rollas}
+  \IEEEauthorblockA{\textit{MSc Candidate}} \and
+  \IEEEauthorblockN{Arda Tanil Kersu}
+  \IEEEauthorblockA{\textit{MSc Candidate}}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  \input{sections/abstract}
+\end{abstract}
+
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_methodology}
+\input{sections/04_experiments}
+\input{sections/05_results}
+\input{sections/06_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{bibliography}
+
+\end{document}
